@@ -1,0 +1,36 @@
+.update-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('../Assets/manaslu.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.update-card {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 800py;
+    
+  }
+
+.update-card h2 {
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.update-card.form-control {
+    font-weight: bold;
+}
+
+.update-card-bg form label {
+    color: black;
+    font-weight: bold;
+}
+

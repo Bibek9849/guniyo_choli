@@ -1,0 +1,36 @@
+.checkout-container {
+    padding: 20px;
+    background: #f9f9f9;
+  }
+  
+  .checkout-container h1 {
+    text-align: center;
+    color: #007bff;
+  }
+  
+  .checkout-container ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .checkout-container li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .checkout-container img {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .place-order-btn {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background: #000000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+  

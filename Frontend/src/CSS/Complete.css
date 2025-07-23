@@ -1,0 +1,85 @@
+/* src/components/Complete.css */
+
+#wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .cardx {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 20px; /* Increased margin for spacing */
+    padding: 40px; /* Increased padding for larger content area */
+    width: 700px; /* Increased width for wider cards */
+    max-width: 100%; /* Ensure cards don’t overflow container */
+    text-align: center;
+    opacity: 0; /* Start with invisible */
+    transform: translateY(-40px); /* Start above the normal position */
+    animation: dropIn 0.6s forwards; /* Apply animation */
+  }
+  
+  @keyframes dropIn {
+    from {
+      opacity: 0;
+      transform: translateY(-40px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .icon {
+    margin-bottom: 25px; /* Increased margin for larger spacing */
+    /* Add your icon styles here if needed */
+  }
+  
+  h1 {
+    font-size: 32px; /* Increased font size for larger heading */
+    margin: 0 0 20px 0; /* Increased margin for spacing */
+  }
+  
+  p {
+    font-size: 20px; /* Increased font size for larger paragraph text */
+    margin: 0;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  li {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0; /* Increased margin for better spacing */
+  }
+  
+  span {
+    font-size: 18px; /* Increased font size for larger text */
+  }
+  
+  .cta-row {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  button {
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 20px; /* Increased font size for larger buttons */
+    padding: 20px 30px; /* Increased padding for larger buttons */
+    margin: 5px;
+  }
+  
+  button.secondary {
+    background-color: #6c757d;
+  }
+  

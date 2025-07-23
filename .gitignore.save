@@ -1,0 +1,6 @@
+/Backend
+# Ignore node_modules and environment files
+node_modules/
+*.pem
+.env
+.DS_Store

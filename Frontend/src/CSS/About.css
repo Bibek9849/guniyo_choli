@@ -1,0 +1,115 @@
+/* General Styling */
+body {
+    font-family: "Poppins", sans-serif; /* Use a modern, clean font */
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+  
+  /* Containers */
+  .about-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  
+  /* Box Styling */
+  .about-box {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 20px;
+    width: 45%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .about-box h1 {
+    font-size: 2rem;
+    color: #000;
+    margin-bottom: 15px;
+  }
+  
+  .about-box p {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #555;
+  }
+  
+  .about-box img {
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Review Box Styling */
+  .review-box {
+    margin-top: 20px;
+    background: #000;
+    color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  .review-box h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .star-rating {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+  
+  .star {
+    cursor: pointer;
+    color: gray;
+    transition: color 0.3s ease;
+  }
+  
+  .star:hover,
+  .star.selected {
+    color: gold;
+  }
+  
+  .submit-review-btn {
+    background: white;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .submit-review-btn:hover {
+    background-color: #f0f0f0;
+    color: #000;
+  }
+  
+  .review-message {
+    margin-top: 10px;
+    font-size: 1rem;
+    color: green;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .about-container {
+      flex-direction: column;
+    }
+  
+    .about-box {
+      width: 100%;
+    }
+  }
+  

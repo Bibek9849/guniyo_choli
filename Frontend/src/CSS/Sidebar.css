@@ -1,0 +1,36 @@
+.sidebar {
+    width: 250px;
+    height: 100vh; /* Full height of the viewport */
+    background-color: #f8f9fa; /* Light background color */
+    padding: 20px; /* Space around the content */
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Subtle shadow to give depth */
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    justify-content: flex-start; /* Align items to the start */
+  }
+  
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    margin: 10px 0; /* Space between items */
+    transition: background-color 0.3s; /* Smooth background color change on hover */
+  }
+  
+  .sidebar-item img {
+    height: 30px; /* Adjust the size of the icons */
+    margin-right: 25px;
+    margin-left: 65px; /* Space between the icon and text */
+  }
+  
+  .sidebar-item p {
+    font-size: 18px; /* Font size for the text */
+    color: #333;
+    font-size: 20px; /* Text color */
+  }
+  
+  .sidebar-item:hover {
+    background-color: #e9ecef; /* Change background color on hover */
+    border-radius: 5px; /* Rounded corners on hover */
+  }
+  

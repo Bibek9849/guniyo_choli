@@ -1,0 +1,146 @@
+body,
+html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('../Assets/a.jpg') no-repeat center center/cover;
+    padding: 1rem;
+}
+
+.login-card {
+    background: rgba(0, 0, 0, 0.85); /* Improved contrast */
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 400px;
+    color: white;
+    text-align: center;
+}
+
+/* Titles */
+.login-title {
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.login-subtitle {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    color: #ccc;
+}
+
+/* Form Styling */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.form-group label {
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+    color: #ccc;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.9rem;
+    border: 1px solid #ccc;
+    border-radius: 0.3rem;
+    font-size: 1rem;
+    color: white;
+    background: transparent;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: white;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+}
+
+/* Checkbox */
+.form-group input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: white;
+    border: 2px solid white;
+    color: black;
+    padding: 0.9rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: black;
+    color: white;
+}
+
+/* Links */
+.text-primary {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.text-primary:hover {
+    color: #ccc;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+    font-size: 0.85rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .login-card {
+        max-width: 90%;
+        padding: 1.5rem;
+    }
+
+    .form-control {
+        font-size: 1rem;
+        padding: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-card {
+        padding: 1rem;
+    }
+
+    .login-title {
+        font-size: 1.5rem;
+    }
+
+    .login-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .form-control {
+        font-size: 0.9rem;
+    }
+
+    .btn-primary {
+        font-size: 0.9rem;
+    }
+}

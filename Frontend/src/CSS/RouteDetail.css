@@ -1,0 +1,64 @@
+/* RouteDetail.css */
+
+.route-detail-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .route-detail-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .route-detail-container p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  
+  .route-detail-container button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .route-detail-container button:hover {
+    background-color: #0056b3;
+  }
+  
+  .route-detail-container .details {
+    margin-bottom: 30px;
+  }
+  
+  .route-detail-container .details h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  
+  .route-detail-container .details p {
+    font-size: 1rem;
+    margin-bottom: 15px;
+  }
+  
+  .route-detail-container .image {
+    margin-bottom: 20px;
+  }
+  
+  .route-detail-container .image img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .route-detail-container .location {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
