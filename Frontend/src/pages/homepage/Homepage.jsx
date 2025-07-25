@@ -1,8 +1,11 @@
+// Homepage.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllProducts } from "../../apis/Api";
-import "../../CSS/Homepage.css";
+
 import Footer from "../../components/Footer";
+import "../../CSS/Homepage.css";
+import Hero from "../../pages/homepage/Hero";
 
 const Homepage = () => {
   const [products, setProducts] = useState([]);
@@ -36,47 +39,50 @@ const Homepage = () => {
   return (
     <>
       <div className="homepage">
-        <div className="hero">
-          <div className="hero-text">
-            <h1>Welcome to Chinno</h1>
-            <p>Your Fashion starts here</p>
-          </div>
-        </div>
+        <Hero />
         <h2 className="flash-title">Flash Sales</h2>
-        <div className="container mt-3">
-          <div className="flash-sale-grid">
-            {products.map((product) => (
-              <div key={product._id} className="product-card">
-                <img
-                  src={`http://localhost:5000/products/${product.productImage}`}
-                  alt={product.productName}
-                  className="product-image"
-                />
-                <h3>{product.productName}</h3>
-                <p className="price">Rs. {product.productPrice}</p>
-                <div className="actions">
-                  <button
-                    className="action-btn buy-btn"
-                    onClick={() => handleAction(product, "buy")}
-                  >
-                    Buy
-                  </button>
-                  <button
-                    className="action-btn rent-btn"
-                    onClick={() => handleAction(product, "rent")}
-                  >
-                    Rent
-                  </button>
-                  <button
-                    className="action-btn add-to-cart-btn"
-                    onClick={() => handleAction(product, "add-to-cart")}
-                  >
-                    Add to Cart
-                  </button>
-                </div>
+        <div className="product-grid">
+          {products.map((product) => (
+            <div key={product._id} className="product-card">
+              {product.isOnSale && <div className="sale-badge">Sale</div>}
+              <img
+                src={`http://localhost:5000/products/${product.productImage}`}
+                alt={product.productName}
+                className="product-image"
+                loading="lazy"
+              />
+              <h3>{product.productName}</h3>
+              <p className="category">{product.category || "General"}</p>
+              <p className="price">
+                {product.originalPrice && (
+                  <span className="original-price">
+                    Rs. {product.originalPrice}
+                  </span>
+                )}
+                Rs. {product.productPrice}
+              </p>
+              <div className="actions">
+                <button
+                  className="action-btn buy-btn"
+                  onClick={() => handleAction(product, "buy")}
+                >
+                  Buy
+                </button>
+                <button
+                  className="action-btn rent-btn"
+                  onClick={() => handleAction(product, "rent")}
+                >
+                  Rent
+                </button>
+                <button
+                  className="action-btn cart-btn"
+                  onClick={() => handleAction(product, "add-to-cart")}
+                >
+                  Add to Cart
+                </button>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
       <Footer />
