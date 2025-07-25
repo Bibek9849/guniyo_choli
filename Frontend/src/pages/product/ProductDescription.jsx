@@ -15,17 +15,26 @@ const ProductDescription = () => {
 
   const handleProceedToCheckout = () => {
     const totalPrice = product.productPrice * quantity;
-    navigate("/payment", { state: { product, action: "buy", totalPrice, cartItems: [{ product, quantity }], total: totalPrice } });
+    navigate("/payment", {
+      state: {
+        product,
+        action: "buy",
+        totalPrice,
+        cartItems: [{ product, quantity }],
+        total: totalPrice,
+      },
+    });
   };
 
   return (
     <div className="product-description-container">
       <div className="product-description-wrapper">
         {/* Product Image */}
-        <div className="product-image">
+        <div className="product-image-container">
           <img
             src={`http://localhost:5000/products/${product.productImage}`}
             alt={product.productName}
+            className="product-image"
           />
         </div>
 
@@ -33,18 +42,22 @@ const ProductDescription = () => {
         <div className="product-info">
           <h1 className="product-name">{product.productName}</h1>
           <p className="product-description">{product.productDescription}</p>
+
           <div className="product-rating">
             <span>⭐ 4.9</span>
             <span>Sold: 125</span>
           </div>
+
           <div className="product-stock-info">
             <span>✅ In Stock</span>
             <span>✔ Guaranteed</span>
             <span>🚚 Free Delivery</span>
           </div>
+
           <div className="product-details">
             <p><strong>Brand:</strong> {product.productBrand}</p>
           </div>
+
           <div className="product-pricing">
             <p>Price per Unit: Rs. {product.productPrice}</p>
             <div className="quantity-select">
@@ -62,7 +75,9 @@ const ProductDescription = () => {
               </select>
             </div>
           </div>
+
           <p className="total-price">Total Price: Rs. {product.productPrice * quantity}</p>
+
           <button className="proceed-btn" onClick={handleProceedToCheckout}>
             Proceed to Checkout
           </button>
