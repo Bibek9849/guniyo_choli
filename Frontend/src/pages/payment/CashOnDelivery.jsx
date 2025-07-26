@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import axios from "axios";
+import React, { useState } from "react";
 
 const CashOnDelivery = ({ amount, products }) => {
   const [showForm, setShowForm] = useState(false);
@@ -50,8 +50,8 @@ const CashOnDelivery = ({ amount, products }) => {
         ...formData,
         amount,
         products: formattedProducts,
-        paymentMethod: 'Cash on Delivery',
-        status: 'Pending'
+        paymentMethod: 'Khalti',
+        status: 'Paid'
       };
 
       console.log('Sending order data:', orderData);
