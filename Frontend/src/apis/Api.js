@@ -15,7 +15,14 @@ const getAuthHeaders = () => ({
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
     }
 });
-
+export const changePasswordApi = async (data) => {
+  const token = localStorage.getItem('token');
+  return await axios.put('/api/user/change-password', data, {
+      headers: {
+          Authorization: `Bearer ${token}`,
+      }
+  });
+};
 // Creating test APIs
 export const testApi = () => Api.get('/test');
 export const newTestApi = () => Api.get('/new_test');
