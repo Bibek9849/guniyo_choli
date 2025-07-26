@@ -237,12 +237,109 @@ const removeFromCart = async (req, res) => {
     }
 
 }
+const changePassword = async (req, res) => {
+    const userId = req.user.id; // Set by auth middleware
+    const { currentPassword, newPassword } = req.body;
+
+    if (!currentPassword || !newPassword) {
+        return res.status(400).json({
+            success: false,
+            message: 'Please provide current and new password'
+        });
+    }
+
+    try {
+        const user = await userModel.findById(userId);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User not found'
+            });
+        }
+
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+        if (!isMatch) {
+            return res.status(400).json({
+                success: false,
+                message: 'Current password is incorrect'
+            });
+        }
+
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(newPassword, salt);
+        user.password = hashedPassword;
+        await user.save();
+
+        return res.status(200).json({
+            success: true,
+            message: 'Password changed successfully'
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            success: false,
+            message: 'Internal Server Error'
+        });
+    }
+};
+
 
 
 const verifyOtpAndSetPassword = async (req, res) => {
-    // Implementation needed
-};
-
+    const { phone, otp, newPassword } = req.body;
+  
+    if (!phone || !otp || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide phone, otp and new password",
+      });
+    }
+  
+    try {
+      const user = await userModel.findOne({ phone: phone });
+  
+      if (!user) {
+        return res.status(404).json({
+          success: false,
+          message: "User not found",
+        });
+      }
+  
+      // Check if OTP matches and is not expired
+      if (
+        user.otpReset !== parseInt(otp) ||
+        !user.otpResetExpires ||
+        Date.now() > user.otpResetExpires
+      ) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid or expired OTP",
+        });
+      }
+  
+      // Hash new password
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(newPassword, salt);
+  
+      // Update password and clear OTP fields
+      user.password = hashedPassword;
+      user.otpReset = undefined;
+      user.otpResetExpires = undefined;
+      await user.save();
+  
+      return res.status(200).json({
+        success: true,
+        message: "Password reset successfully",
+      });
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({
+        success: false,
+        message: "Internal Server Error",
+      });
+    }
+  };
+  
 module.exports = {
     createUser,
     loginUser,
@@ -250,5 +347,6 @@ module.exports = {
     verifyOtpAndSetPassword,
     addToCart, getCart,
     removeFromCart,
-    getCart
+    getCart,
+    changePassword
 };
