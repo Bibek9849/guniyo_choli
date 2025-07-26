@@ -33,10 +33,6 @@ app.use('/api/orders', (req, res, next) => {
   console.log('Order route hit:', req.method, req.url);
   next();
 }, orderRoutes);
-const paymentRoute = require('./routes/paymentRoute'); // 👈 Add this
-
-// Add the route
-app.use('/api/payment', paymentRoute);
 
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);

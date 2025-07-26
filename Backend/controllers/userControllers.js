@@ -3,102 +3,112 @@ const productModel = require("../models/productModel")
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const sendOtp = require('../service/sendOtp');
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
 
 const createUser = async (req, res) => {
-    console.log(req.body);
     const { firstName, lastName, email, password, phone } = req.body;
 
     if (!firstName || !lastName || !email || !password || !phone) {
-        return res.json({
-            "success": false,
-            "message": "Please enter all fields!"
-        });
+        return res.json({ success: false, message: "Please enter all fields!" });
     }
 
     try {
-        const existingUser = await userModel.findOne({ email: email });
+        const existingUser = await userModel.findOne({ email });
         if (existingUser) {
-            return res.json({
-                "success": false,
-                "message": "User Already Exists!"
-            });
+            return res.json({ success: false, message: "User Already Exists!" });
         }
 
-        const randomSalt = await bcrypt.genSalt(10);
-        const hashPassword = await bcrypt.hash(password, randomSalt);
+        const salt = await bcrypt.genSalt(10);
+        const hashPassword = await bcrypt.hash(password, salt);
+
+        const emailToken = crypto.randomBytes(32).toString('hex');
 
         const newUser = new userModel({
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
+            firstName,
+            lastName,
+            email,
             password: hashPassword,
-            phone: phone
+            phone,
+            emailToken,
+            isVerified: false
         });
 
         await newUser.save();
 
-        res.json({
-            "success": true,
-            "message": "User Created Successfully!"
+        const verifyURL = `${process.env.CLIENT_URL}/verify-email?token=${emailToken}`;
+
+        // configure transporter
+        const transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
         });
+
+        await transporter.sendMail({
+            to: email,
+            subject: 'Verify your Email',
+            html: `
+                <h2>Hi ${firstName},</h2>
+                <p>Click below to verify your email:</p>
+                <a href="${verifyURL}">${verifyURL}</a>
+            `
+        });
+
+        return res.json({ success: true, message: 'User created. Please verify your email!' });
 
     } catch (error) {
         console.log(error);
-        res.json({
-            "success": false,
-            "message": "Internal Server Error!"
-        });
+        return res.json({ success: false, message: "Internal Server Error!" });
     }
 };
 
 const loginUser = async (req, res) => {
-    console.log(req.body);
+    console.log('Login attempt:', req.body);
     const { email, password } = req.body;
 
     if (!email || !password) {
-        return res.json({
-            "success": false,
-            "message": "Please enter all fields!"
-        });
+        return res.json({ success: false, message: "Please enter all fields!" });
     }
 
     try {
-        const user = await userModel.findOne({ email: email });
+        const user = await userModel.findOne({ email });
+        console.log('Found user:', user);
+
         if (!user) {
-            return res.json({
-                "success": false,
-                "message": "User Not Found!"
-            });
+            return res.json({ success: false, message: "User Not Found!" });
+        }
+
+        if (!user.isVerified) {
+            return res.json({ success: false, message: "Please verify your email before logging in!" });
         }
 
         const isValidPassword = await bcrypt.compare(password, user.password);
+        console.log('Password valid:', isValidPassword);
         if (!isValidPassword) {
-            return res.json({
-                "success": false,
-                "message": "Incorrect Password!"
-            });
+            return res.json({ success: false, message: "Incorrect Password!" });
         }
 
-        const token = await jwt.sign(
+        const token = jwt.sign(
             { id: user._id, isAdmin: user.isAdmin },
             process.env.JWT_SECRET
         );
 
-        res.json({
-            "success": true,
-            "message": "Login Successful!",
-            "token": token,
-            "userData": user
+        return res.json({
+            success: true,
+            message: "Login Successful!",
+            token,
+            userData: user
         });
 
     } catch (error) {
-        console.log(error);
-        res.json({
-            "success": false,
-            "message": "Internal Server Error!"
-        });
+        console.error('Login error:', error);
+        return res.json({ success: false, message: "Internal Server Error!" });
     }
 };
+
 
 const forgotPassword = async (req, res) => {
     const { phone } = req.body;
@@ -339,7 +349,32 @@ const verifyOtpAndSetPassword = async (req, res) => {
       });
     }
   };
+  const verifyEmail = async (req, res) => {
+    const { token } = req.query;
   
+    if (!token) {
+      return res.status(400).send('Invalid verification link');
+    }
+  
+    try {
+      const user = await userModel.findOne({ emailToken: token });
+  
+      if (!user) {
+        return res.status(400).send('Invalid or expired token');
+      }
+  
+      user.isVerified = true;
+      user.emailToken = undefined; // clear token
+      await user.save();
+  
+      return res.status(200).send('Email verified successfully! You can now login.');
+    } catch (error) {
+      console.error(error);
+      return res.status(500).send('Server error during verification');
+    }
+  };
+  
+
 module.exports = {
     createUser,
     loginUser,
@@ -348,5 +383,6 @@ module.exports = {
     addToCart, getCart,
     removeFromCart,
     getCart,
-    changePassword
+    changePassword,
+    verifyEmail
 };

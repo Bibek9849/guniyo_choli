@@ -10,7 +10,7 @@ const sendOtp = async (phone, otp) => {
 
     // payload
     const payload = {
-        'apiKey' : 'd8edd3dd-dd86-4c83-841b-c3f702eb01a0',
+    'apiKey': process.env.SMS_API_KEY,
         'to' : phone,
         'message' : `Your OTP for Verification is ${otp}`
     }

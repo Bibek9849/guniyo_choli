@@ -19,7 +19,8 @@
     "express-fileupload": "^1.5.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.3",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "nodemailer": "^7.0.5"
   },
   "devDependencies": {
     "jest": "^29.7.0",
