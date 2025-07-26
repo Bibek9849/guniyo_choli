@@ -38,8 +38,8 @@ const createOrder = async (req, res) => {
       phone,
       address,
       city,
-      paymentMethod: 'Cash on Delivery',
-      status: 'Pending'
+      paymentMethod: 'Khalti',
+      status: 'Paid'
     });
 
     const savedOrder = await order.save();
