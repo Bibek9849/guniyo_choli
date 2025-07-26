@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import cart_icon from "../Assets/cart_icon.png";
-import chinno_logo from "../Assets/chinno_logo.jpg";
+import logo from "../Assets/logo.png";
 import "../CSS/Navbar.css";
 
 const Navbar = () => {
@@ -34,7 +34,7 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <div className="nav-logo" onClick={redirectToHome}>
-        <img src={chinno_logo} alt="Chinno Logo" />
+        <img src={logo} alt="Chinno Logo" />
       </div>
 
       <ul className="nav-menu">
