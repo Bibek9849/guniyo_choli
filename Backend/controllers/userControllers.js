@@ -36,7 +36,7 @@ const createUser = async (req, res) => {
 
         await newUser.save();
 
-        const verifyURL = `${process.env.CLIENT_URL}/verify-email?token=${emailToken}`;
+        const verifyURL = `http://localhost:5000/api/user/verify-email?token=${emailToken}`;
 
         // configure transporter
         const transporter = nodemailer.createTransport({
@@ -51,9 +51,15 @@ const createUser = async (req, res) => {
             to: email,
             subject: 'Verify your Email',
             html: `
-                <h2>Hi ${firstName},</h2>
-                <p>Click below to verify your email:</p>
-                <a href="${verifyURL}">${verifyURL}</a>
+                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+                    <h2 style="color: #333; text-align: center;">Hi ${firstName},</h2>
+                    <p style="color: #666; font-size: 16px; line-height: 1.5;">Thank you for registering with us! Please verify your email address to complete your account setup.</p>
+                    <div style="text-align: center; margin: 30px 0;">
+                        <a href="${verifyURL}" style="background-color: #007bff; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">Click Me to Verify</a>
+                    </div>
+                    <p style="color: #999; font-size: 14px; text-align: center;">If the button doesn't work, copy and paste this link into your browser:</p>
+                    <p style="color: #007bff; font-size: 14px; text-align: center; word-break: break-all;">${verifyURL}</p>
+                </div>
             `
         });
 
@@ -353,24 +359,24 @@ const verifyOtpAndSetPassword = async (req, res) => {
     const { token } = req.query;
   
     if (!token) {
-      return res.status(400).send('Invalid verification link');
+      return res.redirect(`http://localhost:3000/verify-email?error=no-token`);
     }
   
     try {
       const user = await userModel.findOne({ emailToken: token });
   
       if (!user) {
-        return res.status(400).send('Invalid or expired token');
+        return res.redirect(`http://localhost:3000/verify-email?error=invalid-token`);
       }
   
       user.isVerified = true;
       user.emailToken = undefined; // clear token
       await user.save();
   
-      return res.status(200).send('Email verified successfully! You can now login.');
+      return res.redirect(`http://localhost:3000/verify-email?success=true`);
     } catch (error) {
       console.error(error);
-      return res.status(500).send('Server error during verification');
+      return res.redirect(`http://localhost:3000/verify-email?error=server-error`);
     }
   };
   
