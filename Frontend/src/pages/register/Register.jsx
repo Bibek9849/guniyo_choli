@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { registerUserApi } from '../../apis/Api';
 import { toast } from 'react-toastify';
-import '../../CSS/Register.css'; 
+import { registerUserApi } from '../../apis/Api';
+import '../../CSS/Register.css';
 
 const Register = () => {
   const [firstName, setFirstName] = useState('');
