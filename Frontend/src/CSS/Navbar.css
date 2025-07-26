@@ -1,209 +1,146 @@
-/* Navbar styles */
+/* Updated Navbar Styles for a Boutique Brand */
+
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
-  background-color: white; /* White background */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 16px 40px;
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
   position: sticky;
   top: 0;
-  z-index: 1000;
-  font-family: Arial, sans-serif;
-  color: black; /* Black text */
-}
-
-/* Logo styles */
-.nav-logo {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
+  z-index: 999;
+  font-family: 'Poppins', sans-serif;
 }
 
 .nav-logo img {
-  width: 100px;
-  height: 40px;
+  height: 50px;
+  cursor: pointer;
 }
 
-/* Menu styles */
+/* Center Menu */
 .nav-menu {
   display: flex;
+  gap: 30px;
   list-style: none;
-  gap: 20px;
-  justify-content: center;
-  flex: 1;
+  margin: 0;
 }
 
 .nav-menu li {
-  font-size: 16px;
+  position: relative;
   font-weight: 500;
-  cursor: pointer;
 }
 
 .nav-menu li a {
   text-decoration: none;
-  color: black; /* Black text */
-  transition: color 0.3s ease;
+  font-size: 15px;
+  color: black;
+  transition: all 0.3s ease;
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
 }
 
-.nav-menu li:hover a,
+.nav-menu li a:hover,
 .nav-menu .active a {
-  color: #ff0000; /* Red on hover */
+  color: #b30000;
+  border-color: #b30000;
 }
 
-/* Cart and Auth Container */
-.nav-auth {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-/* Cart icon styles */
-.nav-cart {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
-.nav-cart img {
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.nav-cart img:hover {
-  transform: scale(1.1);
-}
-
-/* Cart count badge */
-.cart-count {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background-color: #4CAF50;
-  color: white;
-  font-size: 12px;
-  padding: 2px 6px;
-  border-radius: 50%;
-  min-width: 18px;
-  height: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Login and Register buttons */
-.login-btn,
-.register-btn {
-  padding: 8px 20px;
-  font-size: 14px;
-  font-weight: bold;
-  text-align: center;
-  text-decoration: none;
-  color: white; /* White text */
-  background-color: black; /* Black background */
-  border: 2px solid black; /* Black border */
-  border-radius: 20px;
-  transition: all 0.3s ease;
-}
-
-.login-btn:hover,
-.register-btn:hover {
-  background-color: #333; /* Darker black on hover */
-  color: white; /* White text on hover */
-}
-
-/* Logout and Welcome */
-.nav-welcome {
-  font-size: 14px;
-  font-weight: bold;
-  color: #555;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.logout-btn {
-  background: transparent;
-  border: 2px solid black; /* Black border */
-  color: black; /* Black text */
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.logout-btn:hover {
-  background-color: black; /* Black background on hover */
-  color: white; /* White text on hover */
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .navbar {
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 16px;
-  }
-
-  .nav-menu {
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
-  }
-
-  .nav-auth {
-      margin-top: 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 10px;
-  }
-
-  .nav-cart img {
-      width: 25px;
-  }
-}
-
+/* Cart & Profile */
 .nav-icons {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  margin-right: 2rem;
+  gap: 25px;
 }
 
+.nav-cart,
 .nav-profile {
-  display: flex;
-  align-items: center;
   position: relative;
+  cursor: pointer;
+}
+
+.nav-cart img {
+  width: 26px;
+}
+
+.cart-count {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: #e60023;
+  color: #fff;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 50%;
 }
 
 .nav-profile i {
-  font-size: 20px;
-  color: #333;
-  cursor: pointer;
-  transition: transform 0.2s, color 0.2s;
+  font-size: 22px;
+  color: #222;
+  transition: all 0.2s ease;
 }
 
 .nav-profile:hover i {
-  transform: scale(1.1);
-  color: #4CAF50;
+  color: #b30000;
 }
 
-.nav-auth button {
-  background-color: black; /* Black background */
-  color: white; /* White text */
-  border: 2px solid black; /* Black border */
-  padding: 5px 10px;
-  border-radius: 5px;
+/* Auth Buttons */
+.nav-auth {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.login-btn,
+.register-btn,
+.logout-btn {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1.5px solid #b30000;
+  background-color: #fff;
+  color: #b30000;
+  transition: all 0.3s ease;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  text-decoration: none;
 }
 
-.nav-auth button:hover {
-  background-color: white; /* White background on hover */
-  color: black; /* Black text on hover */
+.login-btn:hover,
+.register-btn:hover,
+.logout-btn:hover {
+  background-color: #b30000;
+  color: #fff;
+}
+
+/* Welcome Text */
+.nav-welcome {
+  font-size: 14px;
+  color: #333;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    padding: 12px 20px;
+    align-items: flex-start;
+  }
+
+  .nav-menu {
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+  }
+
+  .nav-auth {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .nav-icons {
+    margin-top: 10px;
+  }
 }
