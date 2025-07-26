@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../../CSS/Profile.css';
-import Footer from '../../components/Footer';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import '../../CSS/Profile.css';
 import { getUserOrdersApi } from '../../apis/Api';
+import Footer from '../../components/Footer';
+// Assume you create this API function to call your backend
+import { changePasswordApi } from '../../apis/Api';
 
 function Profile() {
   const navigate = useNavigate();
@@ -13,11 +15,18 @@ function Profile() {
     lastName: '',
     email: '',
     phone: '',
+    profileImage: '',
   });
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+
+  // For Change Password Form
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [changingPassword, setChangingPassword] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -26,7 +35,6 @@ function Profile() {
       return;
     }
 
-   
     const userData = localStorage.getItem('user');
     if (userData) {
       setUser(JSON.parse(userData));
@@ -63,6 +71,17 @@ function Profile() {
     setIsEditing(!isEditing);
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUser({ ...user, profileImage: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSave = () => {
     // Simulate a successful profile update
     setTimeout(() => {
@@ -72,8 +91,45 @@ function Profile() {
     }, 500);
   };
 
+  // Change Password Handler
+  const handleChangePassword = async (e) => {
+    e.preventDefault();
+
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      toast.error('Please fill all the password fields');
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      toast.error('New password and confirm password do not match');
+      return;
+    }
+
+    setChangingPassword(true);
+
+    try {
+      const response = await changePasswordApi({
+        currentPassword,
+        newPassword,
+      });
+
+      if (response.data.success) {
+        toast.success('Password changed successfully');
+        setCurrentPassword('');
+        setNewPassword('');
+        setConfirmPassword('');
+      } else {
+        toast.error(response.data.message || 'Failed to change password');
+      }
+    } catch (error) {
+      toast.error('Error occurred while changing password');
+    }
+
+    setChangingPassword(false);
+  };
+
   const handleShopNow = () => {
-    navigate('/'); // Navigate to home page
+    navigate('/');
   };
 
   return (
@@ -82,6 +138,19 @@ function Profile() {
       <div className="profile-container">
         <div className="profile-content">
           <div className="profile-left">
+            <div className="profile-image">
+              <img
+                src={user.profileImage || 'https://via.placeholder.com/150'}
+                alt="Profile"
+              />
+              {isEditing && (
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
+              )}
+            </div>
             <h2 className="user-name">{user.firstName} {user.lastName}</h2>
           </div>
 
@@ -141,6 +210,46 @@ function Profile() {
           </div>
         </div>
 
+        {/* Change Password Section */}
+        <div className="change-password-section" style={{ backgroundColor: 'white', padding: '2rem', borderRadius: '10px', boxShadow: '0 2px 10px rgba(0,0,0,0.1)', maxWidth: '600px', margin: 'auto', marginBottom: '2rem' }}>
+          <h2>Change Password</h2>
+          <form onSubmit={handleChangePassword}>
+            <div className="form-group">
+              <label>Current Password</label>
+              <input
+                type="password"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                placeholder="Enter current password"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>New Password</label>
+              <input
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="Enter new password"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Confirm New Password</label>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Confirm new password"
+                required
+              />
+            </div>
+            <button type="submit" className="save-btn" disabled={changingPassword}>
+              {changingPassword ? 'Changing...' : 'Change Password'}
+            </button>
+          </form>
+        </div>
+
         <div className="orders-section">
           <h2>My Orders</h2>
           {loading ? (
@@ -181,3 +290,4 @@ function Profile() {
 }
 
 export default Profile;
+
