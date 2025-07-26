@@ -39,11 +39,13 @@ const orderSchema = new mongoose.Schema({
   },
   paymentMethod: {
     type: String,
-    default: 'Cash on Delivery'
+    enum: ['Cash on Delivery', 'Khalti', 'eSewa', 'Stripe'],
+    required: true
   },
   status: {
     type: String,
-    default: 'Pending'
+    enum: ['Pending', 'Paid', 'Failed', 'Delivered'],
+    required: true
   },
   createdAt: {
     type: Date,
