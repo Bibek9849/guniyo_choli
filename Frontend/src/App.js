@@ -1,31 +1,30 @@
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Homepage from "./pages/homepage/Homepage";
-import Register from "./pages/register/Register";
 import Navbar from "./components/Navbar";
-import ProductDescription from "./pages/product/ProductDescription";
-import RentProductDescription from "./pages/rent/RentProductDescription"; // Import RentProduct Description
+import Homepage from "./pages/homepage/Homepage";
 import About from "./pages/navbar/About";
 import Payment from "./pages/payment/Payment";
+import ProductDescription from "./pages/product/ProductDescription";
+import Register from "./pages/register/Register";
+import RentProductDescription from "./pages/rent/RentProductDescription"; // Import RentProduct Description
 
 
 // Toast Config
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Login from "./pages/login/Login";
+import BuyNow from "./components/BuyNow";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminUpdate from "./pages/admin/AdminUpdate";
-import AdminRoutes from "./protected_routes/AdminRoutes";
-import Profile from "./pages/profile/Profile";
-import UserRoutes from "./protected_routes/UserRoutes";
-import ForgotPassword from "./pages/forgot_password/ForgotPassword";
-import Sidebar from "./pages/Sidebar/Sidebar";
-import BuyNow from "./components/BuyNow";
-import Contact from "./pages/navbar/Contact";
-import Checkout from "./pages/navbar/Checkout";
 import Cart from "./pages/Cart/Cart";
 import Complete from "./pages/Cart/Complete";
+import Login from "./pages/login/Login";
+import Checkout from "./pages/navbar/Checkout";
+import Contact from "./pages/navbar/Contact";
+import Profile from "./pages/profile/Profile";
 import Settings from "./pages/setting/Settings";
+import Sidebar from "./pages/Sidebar/Sidebar";
+import AdminRoutes from "./protected_routes/AdminRoutes";
+import UserRoutes from "./protected_routes/UserRoutes";
 
 import EsewaPayment from "./pages/payment/Esewa";
 
