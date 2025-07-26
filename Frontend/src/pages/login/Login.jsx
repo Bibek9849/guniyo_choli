@@ -9,14 +9,13 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const [attempts, setAttempts] = useState(5); // Track remaining attempts
-  const [isRobot, setIsRobot] = useState(false); // State for checkbox
+  const [attempts, setAttempts] = useState(5);
+  const [isRobot, setIsRobot] = useState(false);
 
   const navigate = useNavigate();
 
   const validation = () => {
     let isValid = true;
-
     setEmailError('');
     setPasswordError('');
 
@@ -39,6 +38,11 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    if (attempts <= 0) {
+      toast.error('No more attempts remaining. Please try again later.');
+      return;
+    }
+
     if (!validation()) {
       return;
     }
@@ -49,16 +53,15 @@ const Login = () => {
       const response = await loginUserApi(data);
 
       if (!response.data.success) {
-        setAttempts((prev) => prev - 1); // Decrease attempts on failure
-        toast.error(response.data.message);
-        if (attempts <= 1) {
-          toast.error('No attempts remaining. Please try again later.');
+        const remaining = attempts - 1;
+        setAttempts(remaining);
+        if (remaining <= 0) {
+          toast.error('No more attempts remaining. Please try again later.');
         } else {
-          toast.error(`Attempts remaining: ${attempts - 1}`);
+          toast.error(`Login failed. Attempts remaining: ${remaining}`);
         }
       } else {
         toast.success(response.data.message);
-
         const userData = response.data.userData;
         localStorage.setItem('user', JSON.stringify(userData));
         localStorage.setItem('token', response.data.token);
@@ -89,6 +92,7 @@ const Login = () => {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              disabled={attempts <= 0}
             />
             {emailError && <p className="text-danger">{emailError}</p>}
           </div>
@@ -101,6 +105,7 @@ const Login = () => {
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              disabled={attempts <= 0}
             />
             {passwordError && <p className="text-danger">{passwordError}</p>}
           </div>
@@ -110,18 +115,28 @@ const Login = () => {
                 type="checkbox"
                 checked={isRobot}
                 onChange={() => setIsRobot(!isRobot)}
+                disabled={attempts <= 0}
               />
               I am not a robot
             </label>
           </div>
-          <button type="submit" className="btn btn-danger w-100">
-            Login
+          <button
+            type="submit"
+            className="btn btn-danger w-100"
+            disabled={attempts <= 0}
+          >
+            {attempts <= 0 ? 'Blocked' : 'Login'}
           </button>
           <p className="mt-3 text-center">
-            Create an account? <Link to="/register" className="text-primary">Register</Link>
+            Don't have an account?{' '}
+            <Link to="/register" className="text-primary">Register</Link>
           </p>
           <p className="mt-3 text-center">
-            {attempts < 5 && <span>Attempts remaining: {attempts}</span>}
+            {attempts < 5 && (
+              <span className="text-danger">
+                Attempts remaining: {attempts}
+              </span>
+            )}
           </p>
         </form>
       </div>
