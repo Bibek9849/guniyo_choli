@@ -1,0 +1,384 @@
+.auth-test-container {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding: 20px;
+}
+
+.auth-test-card {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.test-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+  padding: 30px 30px 10px 30px;
+}
+
+.test-subtitle {
+  color: #666;
+  margin: 0;
+  padding: 0 30px 20px 30px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.test-info {
+  padding: 0 30px 20px 30px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.info-label {
+  font-weight: 600;
+  color: #555;
+}
+
+.info-value {
+  color: #333;
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+}
+
+.test-controls {
+  padding: 20px 30px;
+  border-bottom: 1px solid #e9ecef;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: #545b62;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: #007bff;
+  border: 1px solid #007bff;
+}
+
+.btn-outline:hover:not(:disabled) {
+  background-color: #007bff;
+  color: white;
+}
+
+.test-results {
+  padding: 30px;
+  min-height: 200px;
+}
+
+.no-results {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-style: italic;
+}
+
+.results-list {
+  display: grid;
+  gap: 15px;
+}
+
+.result-item {
+  border-radius: 8px;
+  padding: 20px;
+  border-left: 4px solid #ccc;
+}
+
+.result-item.running {
+  background-color: #fff3cd;
+  border-left-color: #ffc107;
+}
+
+.result-item.success {
+  background-color: #d4edda;
+  border-left-color: #28a745;
+}
+
+.result-item.failed {
+  background-color: #f8d7da;
+  border-left-color: #dc3545;
+}
+
+.result-item.warning {
+  background-color: #fff3cd;
+  border-left-color: #ffc107;
+}
+
+.result-item.error {
+  background-color: #f8d7da;
+  border-left-color: #dc3545;
+}
+
+.result-item.completed {
+  background-color: #d1ecf1;
+  border-left-color: #17a2b8;
+}
+
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.result-test {
+  font-weight: 600;
+  color: #333;
+  font-size: 16px;
+}
+
+.result-status {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.result-item.running .result-status {
+  background-color: #ffc107;
+  color: #856404;
+}
+
+.result-item.success .result-status {
+  background-color: #28a745;
+  color: white;
+}
+
+.result-item.failed .result-status {
+  background-color: #dc3545;
+  color: white;
+}
+
+.result-item.warning .result-status {
+  background-color: #ffc107;
+  color: #856404;
+}
+
+.result-item.error .result-status {
+  background-color: #dc3545;
+  color: white;
+}
+
+.result-item.completed .result-status {
+  background-color: #17a2b8;
+  color: white;
+}
+
+.result-time {
+  font-size: 12px;
+  color: #666;
+  font-family: 'Courier New', monospace;
+}
+
+.result-message {
+  color: #333;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.result-details {
+  margin-top: 15px;
+}
+
+.result-details details {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.result-details summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.result-details pre {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  padding: 15px;
+  overflow-x: auto;
+  font-size: 12px;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.test-documentation {
+  padding: 30px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+}
+
+.test-documentation h2 {
+  margin: 0 0 20px 0;
+  color: #333;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.test-list {
+  display: grid;
+  gap: 15px;
+}
+
+.test-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.test-icon {
+  font-size: 24px;
+  margin-top: 2px;
+}
+
+.test-description h4 {
+  margin: 0 0 8px 0;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.test-description p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .auth-test-container {
+    padding: 10px;
+  }
+  
+  .test-title {
+    font-size: 28px;
+    padding: 20px 20px 10px 20px;
+  }
+  
+  .test-subtitle {
+    padding: 0 20px 15px 20px;
+  }
+  
+  .test-info {
+    padding: 0 20px 15px 20px;
+  }
+  
+  .test-controls {
+    padding: 15px 20px;
+    flex-direction: column;
+  }
+  
+  .test-controls .btn {
+    width: 100%;
+  }
+  
+  .test-results {
+    padding: 20px;
+  }
+  
+  .result-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .test-documentation {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .test-title {
+    font-size: 24px;
+    padding: 15px 15px 10px 15px;
+  }
+  
+  .test-subtitle {
+    padding: 0 15px 15px 15px;
+  }
+  
+  .test-info {
+    padding: 0 15px 15px 15px;
+  }
+  
+  .test-controls {
+    padding: 15px;
+  }
+  
+  .test-results {
+    padding: 15px;
+  }
+  
+  .test-documentation {
+    padding: 15px;
+  }
+  
+  .result-item {
+    padding: 15px;
+  }
+  
+  .test-item {
+    padding: 15px;
+  }
+}

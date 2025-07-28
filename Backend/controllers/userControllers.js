@@ -73,7 +73,9 @@ const createUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
     console.log('Login attempt:', req.body);
-    const { email, password } = req.body;
+    const { email, password, mfaToken, backupCode } = req.body;
+    const clientIP = req.ip || req.connection.remoteAddress;
+    const userAgent = req.headers['user-agent'];
 
     if (!email || !password) {
         return res.json({ success: false, message: "Please enter all fields!" });
@@ -81,40 +83,86 @@ const loginUser = async (req, res) => {
 
     try {
         const user = await userModel.findOne({ email });
-        console.log('Found user:', user);
+        console.log('Found user:', user ? 'Yes' : 'No');
+
+        // Check if account is locked
+        if (user && user.accountLockedUntil && user.accountLockedUntil > new Date()) {
+            const remainingTime = Math.ceil((user.accountLockedUntil - new Date()) / 1000 / 60);
+            await logLoginAttempt(user, clientIP, userAgent, false, 'Account locked');
+            return res.status(423).json({ 
+                success: false, 
+                message: `Account temporarily locked due to multiple failed login attempts. Try again in ${remainingTime} minutes.`,
+                lockedUntil: user.accountLockedUntil
+            });
+        }
 
         if (!user) {
-            return res.json({ success: false, message: "User Not Found!" });
+            // Still track failed attempts for non-existent users to prevent enumeration
+            await logFailedAttempt(email, clientIP, userAgent, 'User not found');
+            return res.json({ success: false, message: "Invalid credentials!" });
         }
 
         if (!user.isVerified) {
+            await logLoginAttempt(user, clientIP, userAgent, false, 'Email not verified');
             return res.json({ success: false, message: "Please verify your email before logging in!" });
         }
 
         const isValidPassword = await bcrypt.compare(password, user.password);
         console.log('Password valid:', isValidPassword);
+        
         if (!isValidPassword) {
-            return res.json({ success: false, message: "Incorrect Password!" });
+            await handleFailedLogin(user, clientIP, userAgent, 'Invalid password');
+            return res.json({ success: false, message: "Invalid credentials!" });
         }
+
+        // If MFA is enabled, verify MFA token
+        if (user.mfaEnabled) {
+            if (!mfaToken && !backupCode) {
+                return res.json({ 
+                    success: false, 
+                    message: "MFA token required",
+                    requiresMFA: true 
+                });
+            }
+
+            const mfaValid = await verifyMFA(user, mfaToken, backupCode);
+            if (!mfaValid) {
+                await handleFailedLogin(user, clientIP, userAgent, 'Invalid MFA token');
+                return res.json({ success: false, message: "Invalid MFA token or backup code!" });
+            }
+        }
+
+        // Successful login - reset failed attempts and update login info
+        await handleSuccessfulLogin(user, clientIP, userAgent, user.mfaEnabled);
 
         const token = jwt.sign(
             { id: user._id, isAdmin: user.isAdmin },
-            process.env.JWT_SECRET
+            process.env.JWT_SECRET,
+            { expiresIn: '24h' }
         );
+
+        // Don't send sensitive data
+        const userData = {
+            _id: user._id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            phone: user.phone,
+            isAdmin: user.isAdmin,
+            mfaEnabled: user.mfaEnabled
+        };
 
         return res.json({
             success: true,
             message: "Login Successful!",
             token,
-            userData: user
+            userData
         });
-
     } catch (error) {
-        console.error('Login error:', error);
+        console.log(error);
         return res.json({ success: false, message: "Internal Server Error!" });
     }
 };
-
 
 const forgotPassword = async (req, res) => {
     const { phone } = req.body;
@@ -380,6 +428,106 @@ const verifyOtpAndSetPassword = async (req, res) => {
     }
   };
   
+// Helper function to verify MFA
+const verifyMFA = async (user, mfaToken, backupCode) => {
+    const speakeasy = require('speakeasy');
+    
+    if (backupCode) {
+        // Verify backup code
+        const codeIndex = user.mfaBackupCodes.indexOf(backupCode.toUpperCase());
+        if (codeIndex !== -1) {
+            // Remove used backup code
+            user.mfaBackupCodes.splice(codeIndex, 1);
+            user.lastMfaVerification = new Date();
+            await user.save();
+            return true;
+        }
+        return false;
+    }
+    
+    if (mfaToken) {
+        // Verify TOTP token
+        const verified = speakeasy.totp.verify({
+            secret: user.mfaSecret,
+            encoding: 'base32',
+            token: mfaToken,
+            window: 2
+        });
+        
+        if (verified) {
+            user.lastMfaVerification = new Date();
+            await user.save();
+        }
+        
+        return verified;
+    }
+    
+    return false;
+};
+
+// Helper function to handle failed login attempts
+const handleFailedLogin = async (user, clientIP, userAgent, reason) => {
+    user.failedLoginAttempts = (user.failedLoginAttempts || 0) + 1;
+    user.lastLoginAttempt = new Date();
+    
+    // Log the attempt
+    await logLoginAttempt(user, clientIP, userAgent, false, reason);
+    
+    // Lock account after 5 failed attempts
+    if (user.failedLoginAttempts >= 5) {
+        // Progressive lockout: 30 minutes for first lockout, doubles each time
+        const lockoutCount = Math.floor(user.failedLoginAttempts / 5);
+        const lockoutDuration = Math.min(30 * Math.pow(2, lockoutCount - 1), 480); // Max 8 hours
+        user.accountLockedUntil = new Date(Date.now() + (lockoutDuration * 60 * 1000));
+        console.log(`Account locked for ${lockoutDuration} minutes due to ${user.failedLoginAttempts} failed attempts`);
+    }
+    
+    await user.save();
+};
+
+// Helper function to handle successful login
+const handleSuccessfulLogin = async (user, clientIP, userAgent, mfaUsed) => {
+    // Reset failed attempts
+    user.failedLoginAttempts = 0;
+    user.accountLockedUntil = null;
+    user.lastSuccessfulLogin = new Date();
+    user.lastLoginAttempt = new Date();
+    
+    // Log the successful attempt
+    await logLoginAttempt(user, clientIP, userAgent, true, 'Successful login', mfaUsed);
+    
+    await user.save();
+};
+
+// Helper function to log login attempts
+const logLoginAttempt = async (user, clientIP, userAgent, success, reason, mfaUsed = false) => {
+    const loginEntry = {
+        ip: clientIP,
+        userAgent: userAgent,
+        timestamp: new Date(),
+        success: success,
+        mfaUsed: mfaUsed,
+        reason: reason
+    };
+    
+    // Keep only last 50 login attempts
+    if (!user.loginHistory) {
+        user.loginHistory = [];
+    }
+    
+    user.loginHistory.unshift(loginEntry);
+    if (user.loginHistory.length > 50) {
+        user.loginHistory = user.loginHistory.slice(0, 50);
+    }
+    
+    console.log(`Login attempt logged: ${user.email} - ${success ? 'SUCCESS' : 'FAILED'} - ${reason}`);
+};
+
+// Helper function to log failed attempts for non-existent users
+const logFailedAttempt = async (email, clientIP, userAgent, reason) => {
+    console.log(`Failed login attempt for non-existent user: ${email} from ${clientIP} - ${reason}`);
+    // You could also log this to a separate collection for security monitoring
+};
 
 module.exports = {
     createUser,

@@ -36,6 +36,47 @@ const userSchema=new mongoose.Schema({
         type : Date,
         default : null
     },
+    // MFA fields
+    mfaEnabled: {
+        type: Boolean,
+        default: false
+    },
+    mfaSecret: {
+        type: String,
+        default: null
+    },
+    mfaBackupCodes: {
+        type: [String],
+        default: []
+    },
+    lastMfaVerification: {
+        type: Date,
+        default: null
+    },
+    // Account lockout fields
+    failedLoginAttempts: {
+        type: Number,
+        default: 0
+    },
+    accountLockedUntil: {
+        type: Date,
+        default: null
+    },
+    lastLoginAttempt: {
+        type: Date,
+        default: null
+    },
+    lastSuccessfulLogin: {
+        type: Date,
+        default: null
+    },
+    loginHistory: [{
+        ip: String,
+        userAgent: String,
+        timestamp: Date,
+        success: Boolean,
+        mfaUsed: Boolean
+    }],
     cart:[
         {
             product : {
