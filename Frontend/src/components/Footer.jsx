@@ -11,7 +11,7 @@ const Footer = () => {
   const handleSubscribe = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/newsletter/subscribe', { email });
+      const response = await axios.post('https://localhost:5000/api/newsletter/subscribe', { email });
       setMessage(response.data.message);
       setEmail('');
     } catch (error) {
@@ -81,7 +81,7 @@ export default Footer;
 //     e.preventDefault();
 
 //     try {
-//       const response = await axios.post('http://localhost:5000/api/newsletter/subscribe', { email });
+//       const response = await axios.post('https://localhost:5000/api/newsletter/subscribe', { email });
 //       setMessage(response.data.message);
 //       setEmail('');
 //     } catch (error) {
