@@ -15,7 +15,7 @@ const ProductCard = ({ productInformation, color }) => {
       </span>
 
       <img
-        src={`http://localhost:5000/products/${productImage}`}
+        src={`https://localhost:5000/products/${productImage}`}
         alt={productName}
         className="product-image"
       />
