@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { createProductApi, deleteProduct, getAllProducts } from '../../apis/Api';
-import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'react-toastify/dist/ReactToastify.css';
-import '../../CSS/AdminDashboard.css';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { deleteProduct, getAllProducts } from '../../apis/Api';
+import '../../CSS/AdminDashboard.css';
 
 
 const AdminDashboard = () => {
@@ -75,7 +75,7 @@ const AdminDashboard = () => {
 
 
         try {
-            const res = await axios.post("http://localhost:5000/api/product/create",formData,{
+            const res = await axios.post("https://localhost:5000/api/product/create",formData,{
                 headers:{
                     "Content-Type":"multipart/form-data"
                 }
@@ -204,7 +204,7 @@ const AdminDashboard = () => {
                         <div className='product-item card mb-3' key={singleProduct._id}>
                             <div className='row g-0'>
                                 <div className='col-md-4'>
-                                    <img src={`http://localhost:5000/products/${singleProduct.productImage}`} className='img-fluid rounded-start' alt={singleProduct.productName} />
+                                    <img src={`https://localhost:5000/products/${singleProduct.productImage}`} className='img-fluid rounded-start' alt={singleProduct.productName} />
                                 </div>
                                 <div className='col-md-8'>
                                     <div className='card-body'>

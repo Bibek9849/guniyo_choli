@@ -1,9 +1,9 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getSingleProduct, updateProduct } from '../../apis/Api';
 import { toast } from 'react-toastify';
+import { getSingleProduct } from '../../apis/Api';
 import '../../CSS/AdminUpdate.css';
-import axios from 'axios';
 
 const AdminUpdate = () => {
     const { id } = useParams();
@@ -55,7 +55,7 @@ const AdminUpdate = () => {
         }
 
         try {
-            const res = await axios.put(`http://localhost:5000/api/product/update_product/${id}`,formData,{
+            const res = await axios.put(`https://localhost:5000/api/product/update_product/${id}`,formData,{
                 headers:{
                     "Content-Type":"multipart/form-data",
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -127,7 +127,7 @@ const AdminUpdate = () => {
 
                     <div className="image section">
                         <h6>Old Image Preview</h6>
-                        <img className="img-fluid object-fit-cover rounded-4" height="200px" width="200px" src={`http://localhost:5000/products/${oldImage}`} alt="" />
+                        <img className="img-fluid object-fit-cover rounded-4" height="200px" width="200px" src={`https://localhost:5000/products/${oldImage}`} alt="" />
 
                         {previewNewImage && (
                             <div>
