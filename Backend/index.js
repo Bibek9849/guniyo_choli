@@ -25,7 +25,7 @@ app.use(fileUpload()); // Enable file uploads
 app.use(express.urlencoded({ extended: true }));
 
 // Define allowed origins for CORS
-const allowedOrigins = ["http://localhost:3000"]; // Replace with your frontend URL
+const allowedOrigins = ["https://localhost:3000"]; 
 const corsOptions = {
   origin: function (origin, callback) {
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
@@ -81,16 +81,26 @@ app.use((req, res) => {
   });
 });
 
-// Start the server
+const https = require("https");
+const fs = require("fs");
+
+// SSL Certificate Options
+const sslOptions = {
+  key: fs.readFileSync("./server.key"),
+  cert: fs.readFileSync("./server.cert"),
+};
+
+// Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URL)
   .then(() => {
-    app.listen(PORT, () => {
-      console.log('Server-app is running on port', PORT);
-      console.log('Connected to local MongoDB');
+    https.createServer(sslOptions, app).listen(PORT, () => {
+      console.log('✅ HTTPS Server is running at https://localhost:' + PORT);
+      console.log('📦 Connected to local MongoDB');
     });
   })
   .catch((err) => {
-    console.error('MongoDB connection error:', err);
+    console.error('❌ MongoDB connection error:', err);
   });
+
 
 module.exports = app;
