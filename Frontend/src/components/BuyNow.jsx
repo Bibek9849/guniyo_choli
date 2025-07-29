@@ -14,7 +14,7 @@ const BuyNow = () => {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
       const response = await axios.post(
-        "http://localhost:5000/api/user/add_to_cart",
+        "https://localhost:5000/api/user/add_to_cart",
         {
           userId: user._id,
           productId: id,
@@ -51,7 +51,7 @@ const BuyNow = () => {
         {/* Left Section: Product Image */}
         <div className="product-image-box">
           <img
-            src={`http://localhost:5000/products/${data.productImage}`}
+            src={`https://localhost:5000/products/${data.productImage}`}
             alt={data.productName}
             className="product-image"
           />
