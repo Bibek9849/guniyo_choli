@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Creating an instance of axios
 const Api = axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: 'https://localhost:5000',
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json', // Update this for JSON requests
@@ -50,7 +50,7 @@ export const deleteProduct = (id) => Api.delete(`/api/product/delete_product/${i
 export const updateProduct = (id, data) => Api.put(`/api/product/update_product/${id}`, data, getAuthHeaders());
 
 // Define your base URL
-const API_URL = 'http://localhost:5000/api'; // Ensure this is correct
+const API_URL = 'https://localhost:5000/api'; // Ensure this is correct
 
 // Function to get user orders
 export const getUserOrdersApi = async () => {
