@@ -233,7 +233,7 @@ const checkPasswordExpiry = (user) => {
     return {
       expired: true,
       message: 'Your password has expired. Please change your password to continue.',
-      daysExpired: Math.floor(passwordAge / (24 * 60 * 60 * 1000)) - 90
+      daysExpired: Math.floor(passwordAge / (24 * 60 * 60 * 1000)) 
     };
   }
   
