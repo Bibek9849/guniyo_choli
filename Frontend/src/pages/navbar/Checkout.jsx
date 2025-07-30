@@ -16,7 +16,7 @@ const Checkout = () => {
         {cartItems.map((item, index) => (
           <li key={index}>
             <img
-              src={`http://localhost:5000/products/${item.productImage}`}
+              src={`https://localhost:5000/products/${item.productImage}`}
               alt={item.productName}
             />
             <span>{item.productName}</span>
