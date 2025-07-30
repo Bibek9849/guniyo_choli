@@ -32,7 +32,7 @@ const ProductDescription = () => {
         {/* Product Image */}
         <div className="product-image-container">
           <img
-            src={`http://localhost:5000/products/${product.productImage}`}
+            src={`https://localhost:5000/products/${product.productImage}`}
             alt={product.productName}
             className="product-image"
           />

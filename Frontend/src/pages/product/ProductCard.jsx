@@ -19,7 +19,7 @@ const ProductCard = ({ product }) => {
   return (
     <div className="product-card">
       <img
-        src={`http://localhost:5000/products/${product.productImage}`}
+        src={`https://localhost:5000/products/${product.productImage}`}
         alt={product.productName}
         className="product-image"
       />
