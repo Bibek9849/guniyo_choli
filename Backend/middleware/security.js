@@ -263,7 +263,7 @@ const csrfProtection = (req, res, next) => {
   
   // Check for valid origin
   const origin = req.headers.origin;
-  const allowedOrigins = ['http://localhost:3000', 'https://yourdomain.com'];
+  const allowedOrigins = ['https://localhost:3000', 'https://yourdomain.com'];
   
   if (origin && allowedOrigins.includes(origin)) {
     return next();
