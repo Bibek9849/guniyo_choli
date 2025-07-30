@@ -46,7 +46,7 @@ const Homepage = () => {
             <div key={product._id} className="product-card">
               {product.isOnSale && <div className="sale-badge">Sale</div>}
               <img
-                src={`http://localhost:5000/products/${product.productImage}`}
+                src={`https://localhost:5000/products/${product.productImage}`}
                 alt={product.productName}
                 className="product-image"
                 loading="lazy"
