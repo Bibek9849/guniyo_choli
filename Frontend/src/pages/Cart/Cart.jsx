@@ -27,8 +27,8 @@ const Esewa = ({ amount }) => {
       tAmt: totalAmount,
       pid: pid,
       scd: "EPAYTEST",
-      su: "http://localhost:3000/payment/success",
-      fu: "http://localhost:3000/payment/failure",
+      su: "https://localhost:3000/payment/success",
+      fu: "https://localhost:3000/payment/failure",
     }).toString();
 
     window.location.href = `${path}?${params}`;
@@ -50,15 +50,15 @@ const Khalti = ({ amount }) => {
 
       productIdentity: `Product_${Date.now()}`,
       productName: "Trek Friend Order",
-      productUrl: "http://localhost:3000",
+      productUrl: "https://localhost:3000",
       eventHandler: {
         onSuccess(payload) {
           console.log("Khalti success:", payload);
-          window.location.href = `http://localhost:3000/payment/success?oid=${payload.idx}&amt=${amount}&refId=${payload.token}`;
+          window.location.href = `https://localhost:3000/payment/success?oid=${payload.idx}&amt=${amount}&refId=${payload.token}`;
         },
         onError(error) {
           console.log("Khalti error:", error);
-          window.location.href = "http://localhost:3000/payment/failure";
+          window.location.href = "https://localhost:3000/payment/failure";
         },
         onClose() {
           console.log("Khalti widget closed");
@@ -149,7 +149,7 @@ const Cart = () => {
     try {
       const stripe = await stripePromise;
 
-      const response = await axios.post("http://localhost:5000/api/payment/stripe", {
+      const response = await axios.post("https://localhost:5000/api/payment/stripe", {
         products: cartItems,
         amount: total,
       });
@@ -197,7 +197,7 @@ const Cart = () => {
                 <tr key={index}>
                   <td>
                     <img
-                      src={`http://localhost:5000/products/${item.productImage}`}
+                      src={`https://localhost:5000/products/${item.productImage}`}
                       alt={item.productName}
                       className="cart-item-image"
                     />
