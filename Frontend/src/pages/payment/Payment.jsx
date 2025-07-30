@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import CashOnDelivery from './CashOnDelivery';
 import './Payment.css';
-import axios from 'axios';
 
 const Payment = () => {
   const location = useLocation();
@@ -33,7 +33,7 @@ const Payment = () => {
       }
 
       // If no location state, fetch from API
-      const response = await axios.get('http://localhost:5000/api/cart', {
+      const response = await axios.get('https://localhost:5000/api/cart', {
         headers: {
           'Authorization': `Bearer ${token}`
         }

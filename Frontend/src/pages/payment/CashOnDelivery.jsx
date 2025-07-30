@@ -56,7 +56,7 @@ const CashOnDelivery = ({ amount, products }) => {
 
       console.log('Sending order data:', orderData);
 
-      const response = await axios.post('http://localhost:5000/api/orders', orderData, {
+      const response = await axios.post('https://localhost:5000/api/orders', orderData, {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
@@ -91,7 +91,7 @@ const CashOnDelivery = ({ amount, products }) => {
 
         // Silently clear cart without showing any messages
         try {
-          await axios.delete('http://localhost:5000/api/cart', {
+          await axios.delete('https://localhost:5000/api/cart', {
             headers: {
               'Authorization': `Bearer ${token}`
             }

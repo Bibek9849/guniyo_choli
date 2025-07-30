@@ -20,8 +20,8 @@ const KhaltiWithOrder = ({ amount, products }) => {
     const config = {
       publicKey: "test_public_key_11bc2e57406d437ca08a84a1bc30ddd2",
       productIdentity: `Product_${Date.now()}`,
-      productName: "Trek Friend Order",
-      productUrl: "http://localhost:3000",
+      productName: "Guniyo Choli",
+      productUrl: "https://localhost:3000",
       eventHandler: {
         async onSuccess(payload) {
           console.log("Khalti success payload:", payload);
@@ -45,7 +45,7 @@ const KhaltiWithOrder = ({ amount, products }) => {
 
           try {
             const response = await axios.post(
-              "http://localhost:5000/api/orders",
+              "https://localhost:5000/api/orders",
               orderData,
               {
                 headers: {

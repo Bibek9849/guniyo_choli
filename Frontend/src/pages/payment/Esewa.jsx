@@ -20,8 +20,8 @@ const Esewa = ({ amount }) => {
       tAmt: totalAmount,
       pid: pid,
       scd: "EPAYTEST",
-      su: "http://localhost:3000/payment/success",
-      fu: "http://localhost:3000/payment/failure"
+      su: "https://localhost:3000/payment/success",
+      fu: "https://localhost:3000/payment/failure"
     }).toString();
 
     // Redirect to eSewa payment page
