@@ -36,7 +36,7 @@ const createUser = async (req, res) => {
 
         await newUser.save();
 
-        const verifyURL = `http://localhost:5000/api/user/verify-email?token=${emailToken}`;
+        const verifyURL = `https://localhost:5000/api/user/verify-email?token=${emailToken}`;
 
         // configure transporter
         const transporter = nodemailer.createTransport({
@@ -91,7 +91,7 @@ const loginUser = async (req, res) => {
             await logLoginAttempt(user, clientIP, userAgent, false, 'Account locked');
             return res.status(423).json({ 
                 success: false, 
-                message: `Account temporarily locked due to multiple failed login attempts. Try again in ${remainingTime} minutes.`,
+                message: `Account locked due to multiple failed login attempts. Try again in ${remainingTime} minutes.`,
                 lockedUntil: user.accountLockedUntil
             });
         }
@@ -407,24 +407,24 @@ const verifyOtpAndSetPassword = async (req, res) => {
     const { token } = req.query;
   
     if (!token) {
-      return res.redirect(`http://localhost:3000/verify-email?error=no-token`);
+      return res.redirect(`https://localhost:3000/verify-email?error=no-token`);
     }
   
     try {
       const user = await userModel.findOne({ emailToken: token });
   
       if (!user) {
-        return res.redirect(`http://localhost:3000/verify-email?error=invalid-token`);
+        return res.redirect(`https://localhost:3000/verify-email?error=invalid-token`);
       }
   
       user.isVerified = true;
-      user.emailToken = undefined; // clear token
+      user.emailToken = undefined;
       await user.save();
   
-      return res.redirect(`http://localhost:3000/verify-email?success=true`);
+      return res.redirect(`https://localhost:3000/verify-email?success=true`);
     } catch (error) {
       console.error(error);
-      return res.redirect(`http://localhost:3000/verify-email?error=server-error`);
+      return res.redirect(`https://localhost:3000/verify-email?error=server-error`);
     }
   };
   
@@ -477,7 +477,7 @@ const handleFailedLogin = async (user, clientIP, userAgent, reason) => {
     if (user.failedLoginAttempts >= 5) {
         // Progressive lockout: 30 minutes for first lockout, doubles each time
         const lockoutCount = Math.floor(user.failedLoginAttempts / 5);
-        const lockoutDuration = Math.min(30 * Math.pow(2, lockoutCount - 1), 480); // Max 8 hours
+        const lockoutDuration = Math.min(30 * Math.pow(2, lockoutCount - 1), 480);
         user.accountLockedUntil = new Date(Date.now() + (lockoutDuration * 60 * 1000));
         console.log(`Account locked for ${lockoutDuration} minutes due to ${user.failedLoginAttempts} failed attempts`);
     }
