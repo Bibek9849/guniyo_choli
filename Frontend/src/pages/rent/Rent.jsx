@@ -1,7 +1,7 @@
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import axios from "axios";
 import "../CSS/Rent.css"; //css of rent
 import { getSingleProduct } from "../apis/Api";
 
@@ -15,7 +15,7 @@ const Rent = () => {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
       const response = await axios.post(
-        "http://localhost:5000/api/user/rent_product",
+        "https://localhost:5000/api/user/rent_product",
         {
           userId: user._id,
           productId: id,
@@ -62,7 +62,7 @@ const Rent = () => {
       </div>
       <div className="product-section">
         <img
-          src={`http://localhost:5000/products/${data.productImage}`}
+          src={`https://localhost:5000/products/${data.productImage}`}
           alt={data.productName}
           className="main-image"
         />

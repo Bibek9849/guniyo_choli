@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../../CSS/RentProductDescription.css";
 
 const RentProductDescription = () => {
@@ -25,7 +25,7 @@ const RentProductDescription = () => {
         {/* Left Section: Product Image */}
         <div className="rent-product-image">
           <img
-            src={`http://localhost:5000/products/${product.productImage}`}
+            src={`https://localhost:5000/products/${product.productImage}`}
             alt={product.productName}
           />
         </div>
