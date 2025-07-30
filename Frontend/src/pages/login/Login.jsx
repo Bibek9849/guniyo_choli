@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import ReCAPTCHA from 'react-google-recaptcha';
-import { loginUserApi, verifyMFATokenApi } from '../../apis/Api';
+import { loginUserApi } from '../../apis/Api';
 import '../../CSS/Login.css';
 
 const Login = () => {
@@ -298,7 +298,7 @@ const Login = () => {
           <div className="form-group captcha-container">
             <ReCAPTCHA
               ref={recaptchaRef}
-              sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" // Test site key - replace with your actual site key
+              sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
               onChange={handleCaptchaChange}
               theme="light"
             />
